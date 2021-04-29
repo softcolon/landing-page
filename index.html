@@ -373,7 +373,7 @@
 
 	</div>
 	<div class="col-lg-8 col-12">
-		<form method="post" action="http://127.0.0.1:5000/submit" id="contactUsForm">
+		<form method="post" action="ActionURL" id="contactUsForm">
 			<div class="form-group row">
 				<div class="col-lg-6 col-12 mt-2">
 					<label class="text-blue" for="name">Name</label>
@@ -446,7 +446,7 @@
 		  </button>
 		</div>
 		<div class="modal-body">
-			<form method="post" action="http://127.0.0.1:5000/submit" id="contactUsForm">
+			<form method="post" action="ActionURL" id="contactUsForm">
 				<div class="form-group row">
 					<div class="col-lg-6 col-12 mt-2">
 						<label class="text-blue" for="name">Name</label>
@@ -595,22 +595,15 @@ $('.select-plan').click(function(e) {
         $method = $form.attr('method');
         $action = $form.attr('action');
         $data = $form.serializeObject();
-		console.log($data);
         $.ajax({
             url: $action,
             type: $method,
-            dataType: 'json',
+            dataType: 'JSON',
             data: JSON.stringify($data),
 			contentType: 'application/json',
             beforeSend: function() {
                 $form.find('button[type="submit"]').prop('disabled', true);
             }
-			/*,
-            complete: function() {
-				grecaptcha.reset(0);
-    			grecaptcha.reset(1);
-			}
-			*/
         }).done(function(res) {
             if (res.status == true) {
                 $form.trigger('reset');
