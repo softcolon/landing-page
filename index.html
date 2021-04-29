@@ -18,7 +18,7 @@
 	<link rel="stylesheet" href="src/owlcarousel/owl.theme.custom.css">
 	<link rel="stylesheet" type="text/css" href="src/notification/ns-default.css">
 	<link rel="stylesheet" type="text/css" href="src/notification/ns-style-other.css">
-	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+	<!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script> -->
 </head>
 
 <body>
@@ -605,11 +605,12 @@ $('.select-plan').click(function(e) {
             beforeSend: function() {
                 $form.find('button[type="submit"]').prop('disabled', true);
             }
-			,
+			/*,
             complete: function() {
 				grecaptcha.reset(0);
     			grecaptcha.reset(1);
 			}
+			*/
         }).done(function(res) {
             if (res.status == true) {
                 $form.trigger('reset');
