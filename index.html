@@ -8,17 +8,17 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>SoftColon</title>
 	<meta http-equiv=X-UA-Compatible content="IE=edge">
-    <link rel="shortcut icon" href="src/img/logo-white-1.png" type="image/x-icon">
+    <link rel="shortcut icon" href="src/img/fav_icon.jpg" type="image/x-icon">
     <meta name=viewport content="width=device-width,initial-scale=1">
     <meta name="keywords" content="Software House">
-    <meta name="description" content="Digitalize your company" />
+    <meta name="description" content="Digitalize your store" />
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">    <link rel="stylesheet" type="text/css" href="src/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="src/css/styles.css">
     <link rel="stylesheet" href="src/owlcarousel/owl.carousel.min.css">
 	<link rel="stylesheet" href="src/owlcarousel/owl.theme.custom.css">
 	<link rel="stylesheet" type="text/css" href="src/notification/ns-default.css">
 	<link rel="stylesheet" type="text/css" href="src/notification/ns-style-other.css">
-	<script src="../www.google.com/recaptcha/api.js" async defer></script>
+	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 
 <body>
@@ -355,25 +355,25 @@
 		<div class="d-flex mt-4">
 			<div class="col-1"><h5 class="fas fa-phone text-purple"></i></div>
 			<div class="col-11 pl-4">
-				<p class="text-blue my-0">Info@treffenapp.com</p>
+				<p class="text-blue my-0">email</p>
 			</div>
 		</div>
 		<div class="d-flex mt-4">
 			<div class="col-1"><h5 class="fas fa-envelope text-purple"></i></div>
 			<div class="col-11 pl-4">
-				<p class="text-blue my-0">+201000015051</p>
+				<p class="text-blue my-0">Phone number</p>
 			</div>
 		</div>
 		<div class="d-flex mt-4">
 			<div class="col-1"><h5 class="fas fa-map text-purple"></i></div>
 			<div class="col-11 pl-4">
-				<p class="text-blue my-0">347 Kornish El Nile, Maadi, Cairo , Egypt</p>
+				<p class="text-blue my-0">Address</p>
 			</div>
 		</div>
 
 	</div>
 	<div class="col-lg-8 col-12">
-		<form method="post" action="https://treffenapp.com/submit.php" id="contactUsForm">
+		<form method="post" action="http://127.0.0.1:5000/submit" id="contactUsForm">
 			<div class="form-group row">
 				<div class="col-lg-6 col-12 mt-2">
 					<label class="text-blue" for="name">Name</label>
@@ -421,14 +421,16 @@
         <div class="d-flex row">
             <div class="col-2 mt-lg-5 mt-3">
                 <a href="index.html">
-                    <img alt="" src="src/img/logo-white-1.png" class="logo-footer" alt="Event Management Solution" title="Event Management Solution">
+                    <img alt="" src="src/img/logo-white-1.png" class="logo-footer" alt="E-commerce Solution" title="E-commerce Solution">
                 </a>
             </div>
             <div class="col-10 text-right social-icons mt-lg-5 mt-5">
-              <a target="_blank" href="https://www.facebook.com/TreffenApp" class="m-1"><i class="fab fa-facebook text-center"></i></a>
-              <a target="_blank" href="https://twitter.com/TreffenApp" class="m-1"><i class="fab fa-twitter text-center"></i></a>
+              <a target="_blank" href="https://www.facebook.com/softcolon" class="m-1"><i class="fab fa-facebook text-center"></i></a>
+             <!--
+			  <a target="_blank" href="https://twitter.com/TreffenApp" class="m-1"><i class="fab fa-twitter text-center"></i></a>
               <a target="_blank" href="https://www.linkedin.com/company/treffenapp/" class="m-1"><i class="fab fa-linkedin text-center"></i></a>
               <a target="_blank" href="https://www.instagram.com/treffenapp/" class="m-1"><i class="fab fa-instagram text-center"></i></a>
+			 -->
             </div>
         </div>
       </div>
@@ -444,7 +446,7 @@
 		  </button>
 		</div>
 		<div class="modal-body">
-			<form method="post" action="https://treffenapp.com/submit.php" id="contactUsForm">
+			<form method="post" action="http://127.0.0.1:5000/submit" id="contactUsForm">
 				<div class="form-group row">
 					<div class="col-lg-6 col-12 mt-2">
 						<label class="text-blue" for="name">Name</label>
@@ -570,21 +572,40 @@ $('.select-plan').click(function(e) {
     $nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height());
   });
 
+  $.fn.serializeObject = function() {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+
 
   $('form').on('submit', function(e) {
         e.preventDefault();
         var $form = $(this);
         $method = $form.attr('method');
         $action = $form.attr('action');
-        $data = $form.serialize();
+        $data = $form.serializeObject();
+		console.log($data);
         $.ajax({
             url: $action,
             type: $method,
             dataType: 'json',
-            data: $data,
+            data: JSON.stringify($data),
+			contentType: 'application/json',
             beforeSend: function() {
                 $form.find('button[type="submit"]').prop('disabled', true);
-            },
+            }
+			,
             complete: function() {
 				grecaptcha.reset(0);
     			grecaptcha.reset(1);
